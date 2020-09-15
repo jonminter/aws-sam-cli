@@ -129,13 +129,15 @@ class Container:
 
         if self.network_id == "host":
             kwargs["network_mode"] = self.network_id
+        else:
+            kwargs["network"] = self.network_id
 
         real_container = self.docker_client.containers.create(self._image, **kwargs)
         self.id = real_container.id
 
-        if self.network_id and self.network_id != "host":
-            network = self.docker_client.networks.get(self.network_id)
-            network.connect(self.id)
+        # if self.network_id and self.network_id != "host":
+        #     network = self.docker_client.networks.get(self.network_id)
+        #     network.connect(self.id)
 
         return self.id
 
